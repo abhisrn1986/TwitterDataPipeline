@@ -3,3 +3,4 @@ sqlalchemy
 psycopg2-binary
 pandas
 urllib3
+vaderSentiment

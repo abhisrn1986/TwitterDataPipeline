@@ -5,11 +5,13 @@ services:
     image: mongo
     ports:
     - 27017:27017
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs" ]
 
   tweet_collector:
     build: tweet_collector/
     volumes:
     - ./tweet_collector/:/get_tweet
+
     depends_on:
     - mongodb
 
@@ -17,10 +19,6 @@ services:
     image: postgres
     ports:
     - "5555:5432"
-    # environment:
-    # - POSTGRES_USER=postgres
-    # - POSTGRES_PASSWORD=LandloveR123
-    # - POSTGRES_DB=twitter
     env_file:
       - .env
 
