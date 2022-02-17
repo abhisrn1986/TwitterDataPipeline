@@ -51,7 +51,7 @@ cursor = tweepy.Paginator(
 
 for tweet in cursor:
     # print(tweet.text)
-    db.tweets.insert_one(dict(tweet))
+    # db.tweets.insert_one(dict(tweet))
 
 
 #####################

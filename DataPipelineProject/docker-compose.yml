@@ -12,3 +12,24 @@ services:
     - ./tweet_collector/:/get_tweet
     depends_on:
     - mongodb
+
+  postgresdb:
+    image: postgres
+    ports:
+    - "5555:5432"
+    # environment:
+    # - POSTGRES_USER=postgres
+    # - POSTGRES_PASSWORD=LandloveR123
+    # - POSTGRES_DB=twitter
+    env_file:
+      - .env
+
+  etl_job:
+    build: etl_job/
+    volumes:
+    - ./etl_job/:/etl
+    env_file:
+      - .env
+    depends_on:
+    - mongodb
+    - postgresdb
