@@ -1,7 +1,7 @@
-import json
-import re
+# import json
 import requests
 import credentials
+import time
 
 def post_slack(tweet, score) :
 
@@ -59,3 +59,4 @@ def post_slack(tweet, score) :
     #     f.write("\n------------------------------------------------------\n")
 
     requests.post(url=credentials.webhook_url, json = data)
+    time.sleep(5)
