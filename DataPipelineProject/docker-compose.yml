@@ -15,16 +15,6 @@ services:
     depends_on:
     - mongodb
 
-    # args:
-    # - hashtag : $hashtag
-
-  postgresdb:
-    image: postgres
-    ports:
-    - "5555:5432"
-    env_file:
-      - .env
-
   etl_job:
     build: etl_job/
     volumes:
@@ -33,4 +23,3 @@ services:
       - .env
     depends_on:
     - mongodb
-    - postgresdb

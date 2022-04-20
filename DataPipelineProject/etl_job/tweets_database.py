@@ -30,7 +30,7 @@ def connect_to_mongodb():
     # Select the database you want to use withing the MongoDB server
     db = client.twitter
 
-    time.sleep(5)
+    # time.sleep(5)
 
     return db
 

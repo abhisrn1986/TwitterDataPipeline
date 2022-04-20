@@ -1,4 +1,4 @@
-pymongo
+pymongo==4.1.1
 sqlalchemy
 psycopg2-binary
 pandas
