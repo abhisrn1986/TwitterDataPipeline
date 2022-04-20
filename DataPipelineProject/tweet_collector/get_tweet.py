@@ -25,13 +25,15 @@ if __name__ == '__main__':
     # wait until mongo db is connected properly before insertion
     time.sleep(10)
     # mongo db should be set to a replica set from standalone before this
+    # before using replicaset in mongod console use rs.initiate() to
+    # intiate the replica set
+    # https://pymongo.readthedocs.io/en/stable/examples/high_availability.html?highlight=replica#id1
     mongodb_client = pymongo.MongoClient(host="mongodb", port=27017, replicaset='dbrs', directConnection=True)
 
     db = mongodb_client.twitter
 
     user_stream = UserTweetsStream(credentials.customer_key, credentials.customer_secret_key,
                                 credentials.access_token, credentials.access_token_secret, mongo_db=db)
-
 
     # TODO may convert this into arguements passed while running docker-compose
     # user_stream.filter(track=['Germany'], languages=['en'])
