@@ -13,9 +13,6 @@ if __name__ == '__main__':
 
     db = tweets_database.connect_to_mongodb()
 
-    # with open('readme.txt', 'w') as f:
-    #     pass
-
     # Post to slack whenever there is a change in the 
     # mongo db (here changes are only insertions)
     with db.tweets.watch() as stream:

@@ -48,15 +48,6 @@ def post_slack(tweet, score) :
         }]  
     }
 
-    # TODO remove after proper debugging
-    # with open('readme.txt', 'a') as f:
-    #     tweet.pop('_id', None)
-    #     f.write(json.dumps(tweet))
-    #     f.write(f'\n extended tweet: {json.dumps(extended_tweet)}\n')
-    #     f.write(f'\ntweet_entities: {json.dumps(tweet_entities)}\n')
-    #     f.write(f'\n media_url: {image_url} \n')
-    #     f.write(json.dumps(data))
-    #     f.write("\n------------------------------------------------------\n")
-
-    requests.post(url=credentials.webhook_url, json = data)
+    # requests.post(url=credentials.webhook_url, json = data)
+    print(data)
     time.sleep(5)

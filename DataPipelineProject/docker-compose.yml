@@ -8,9 +8,12 @@ services:
     entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs" ]
 
   tweet_collector:
+   
     build: tweet_collector/
     volumes:
     - ./tweet_collector/:/get_tweet
+    environment:
+    - QUERY
 
     depends_on:
     - mongodb
@@ -23,3 +26,4 @@ services:
       - .env
     depends_on:
     - mongodb
+    - tweet_collector
