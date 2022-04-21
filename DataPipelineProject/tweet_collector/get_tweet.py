@@ -34,6 +34,11 @@ if __name__ == '__main__':
     user_stream = UserTweetsStream(credentials.customer_key, credentials.customer_secret_key,
                                 credentials.access_token, credentials.access_token_secret, mongo_db=db)
 
-    # user_stream.filter(track=args.phrases, languages=['en'])
-    phrases = [i for i in os.getenv("QUERY").split(";")] 
+    try :
+        phrases = [i for i in os.getenv("QUERY").split(";")] 
+        print("phrases", phrases)
+    except AttributeError:
+        print("Provide a query argument as none is provided")
+        exit(1)
+
     user_stream.filter(track=phrases, languages=['en'])
