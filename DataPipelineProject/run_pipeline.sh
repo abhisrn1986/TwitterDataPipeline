@@ -31,5 +31,5 @@ then
    exit 1
 elif [ "$query_exists_flag" = 1 ]
 then
-    sudo QUERY=$arg_1 docker-compose up
+    QUERY=$arg_1 docker-compose up
 fi

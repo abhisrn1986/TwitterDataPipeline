@@ -12,6 +12,7 @@ def clean_tweets(tweet_text):
     tweet_text = re.sub(clean_tweets.url_regex, '', tweet_text)  # removes most URLs
 
     return tweet_text
+
 # patterns used for cleaning the text used exclusively in the 
 # clean_tweet method above
 clean_tweets.mentions_regex = '@[A-Za-z0-9]+'
