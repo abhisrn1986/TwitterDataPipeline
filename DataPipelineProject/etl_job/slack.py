@@ -1,38 +1,6 @@
-# import json
-import requests
-import credentials
 import time
 
-def post_slack(tweet, score) :
-
-    tweet = tweet['fullDocument']
-    text = tweet['text']
-    image_url = "https://about.twitter.com/content/dam/about-twitter/en/brand-toolkit/brand-download-img-1.jpg.twimg.1920.jpg"
-
-    extended_tweet = {}
-    tweet_entities = {}
-
-    # Extract the media url if it exists for image link
-    # in the data posted for slack
-    if 'retweeted_status' in tweet:
-        retweet = tweet['retweeted_status']
-
-        if 'quoted_status' in retweet:
-            retweet = retweet['quoted_status']
-    
-        if 'extended_tweet' in retweet:
-            retweet = retweet['extended_tweet']
-            text = retweet['full_text']
-
-        tweet_entities = retweet['entities']
-        if 'media' in tweet_entities:
-            image_url = tweet_entities['media'][0]['media_url']
-        elif 'extended_entities' in retweet:
-            image_url = extended_tweet['extended_entities']['media'][0]['media_url']
-    else :
-        tweet_entities = tweet['entities'] 
-        if 'media' in tweet_entities:
-            image_url = tweet_entities['media'][0]['media_url']
+def post_slack(text, score, image_url) :
 
     data = {'blocks': [{
             "type": "section",

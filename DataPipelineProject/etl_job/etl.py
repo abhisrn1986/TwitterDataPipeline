@@ -5,6 +5,7 @@ import sentimental_analysis
 import tweets_database
 import slack
 import time
+from preprocess_tweets import get_tweet_text, get_tweet_image_url
 
 if __name__ == '__main__':
     # wait until mongo db is connected properly and initialized in
@@ -17,7 +18,8 @@ if __name__ == '__main__':
     # mongo db (here changes are only insertions)
     with db.tweets.watch() as stream:
         for change in stream:
-            score = sentimental_analysis.get_score_tweet(change['fullDocument']['text'])
-            slack.post_slack(change, score)
+            tweet_text = get_tweet_text(change)
+            score = sentimental_analysis.get_score_tweet(tweet_text)
+            slack.post_slack(tweet_text, score, get_tweet_image_url(change))
 
 
