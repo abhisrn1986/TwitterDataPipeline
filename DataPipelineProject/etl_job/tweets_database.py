@@ -1,15 +1,8 @@
-import time
-
 import pandas as pd
 import pymongo
 from sqlalchemy import create_engine
-import numpy as np
-import sentimental_analysis
-import json
 import credentials
-import requests
 import urllib
-import slack
 
 
 def insert_tweet_in_postgre_db(tweets):
@@ -28,9 +21,4 @@ def connect_to_mongodb():
     client = pymongo.MongoClient(host="mongodb", port=27017, replicaset='dbrs')
 
     # Select the database you want to use withing the MongoDB server
-    db = client.twitter
-
-    # time.sleep(5)
-
-    return db
-
+    return client.twitter

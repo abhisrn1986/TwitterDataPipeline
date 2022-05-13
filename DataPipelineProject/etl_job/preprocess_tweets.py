@@ -11,8 +11,8 @@ def clean_tweet(tweet_text):
 
     return tweet_text
 
-# patterns used for cleaning the text used exclusively in the 
-# clean_tweet method above
+# Patterns used for cleaning the text used exclusively in the 
+# clean_tweet method above.
 clean_tweet.mentions_regex = '@[A-Za-z0-9]+'
 clean_tweet.url_regex = 'https?:\/\/\S+'  # this will not catch all possible URLs
 clean_tweet.hashtag_regex = '#'

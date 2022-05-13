@@ -1,10 +1,6 @@
-import pandas as pd
-from sqlalchemy import create_engine
-import numpy as np
 import sentimental_analysis
 import tweets_database
 import slack
-import time
 from preprocess_tweets import get_tweet_text, get_tweet_image_url
 
 if __name__ == '__main__':

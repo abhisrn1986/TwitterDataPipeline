@@ -1,4 +1,7 @@
 import time
+import requests
+import credentials
+
 
 def post_slack(text, score, image_url) :
 
