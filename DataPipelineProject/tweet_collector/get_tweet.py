@@ -23,12 +23,19 @@ class UserTweetsStream(Stream):
 if __name__ == '__main__':
 
     # wait until mongo db is connected properly before insertion
-    time.sleep(10)
+    time.sleep(5)
     # mongo db should be set to a replica set from standalone before this
     # before using replicaset in mongod console use rs.initiate() to
     # intiate the replica set
     # https://pymongo.readthedocs.io/en/stable/examples/high_availability.html?highlight=replica#id1
-    mongodb_client = pymongo.MongoClient(host="mongodb", port=27017, replicaset='dbrs', directConnection=True)
+    # mongodb_client = pymongo.MongoClient(host="mongodb", port=27017, replicaset='dbrs', directConnection=True)
+    mongodb_client = pymongo.MongoClient(host="mongodb", port=27017, replicaset='dbrs')
+
+    # config = {'_id' : 'dbrs', 'members': [
+    #     {'_id': 0, 'host': 'mongodb:27017'}
+    # ]}
+    # mongodb_client.admin.command("replSetInitiate", config)
+
     db = mongodb_client.twitter
 
     user_stream = UserTweetsStream(credentials.customer_key, credentials.customer_secret_key,
