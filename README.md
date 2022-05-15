@@ -11,6 +11,14 @@ The real-time data pipeline flow is as follows:
 Docker container collects tweets in real-time based on a particular query using the streaming functionality in **Tweepy API**. This docker container stores the tweets in **MongoDB**. As soon as the program inserts new tweets in the database, it sends these tweets to another docker container. This docker container performs a sentimental analysis of the tweets and posts the results in a slack channel using the Slack bot. The tweets collection and storage are independent of the sentimental analysis and Slack posting. 
 
 ## Features
+1. Streams tweets based on search queries using the Tweepy API.
+2. Stores tweets dictionary in a MongoDB database.
+3. Tweets' insertion in the tweets storage database is detected using MongoDB replica sets, which provide real-time sentiment analysis and posting of tweets in slack.
+4. Two docker containers keep tweets collection and storage independent of the tweet's sentiment analysis and slack posting job.
+5. Tweets' sentiments are analyzed using the Vader sentiment analysis.
+6. Sentiments of the tweets' are posted in a Slack channel using a Slack bot.
+7. Multiple Docker containers are defined and run using Docker compose tool.
+
 
 ## Technology Stack
 
