@@ -134,6 +134,3 @@ dmypy.json
 #Large files 
 .jar
 .csv
-
-#ignore credentials file
-credentials.py

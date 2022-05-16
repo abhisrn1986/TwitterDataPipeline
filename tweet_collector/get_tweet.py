@@ -54,10 +54,11 @@ if __name__ == '__main__':
 
     # set up a tweets stream object which directly inserts tweets into
     # the database whenever new tweets are streamed.
-    user_stream = UserTweetsStream(credentials.customer_key,
-                                   credentials.customer_secret_key,
-                                   credentials.access_token,
-                                   credentials.access_token_secret,
+    creds = credentials.get_twitter_creds()
+    user_stream = UserTweetsStream(creds['customer_key'],
+                                   creds['customer_secret_key'],
+                                   creds['access_token'],
+                                   creds['access_token_secret'],
                                    mongo_db=db)
 
     try:
