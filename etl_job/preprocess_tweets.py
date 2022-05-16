@@ -1,4 +1,5 @@
 import re
+import json
 
 def clean_tweet(tweet_text):
 
@@ -18,9 +19,25 @@ clean_tweet.url_regex = 'https?:\/\/\S+'  # this will not catch all possible URL
 clean_tweet.hashtag_regex = '#'
 clean_tweet.rt_regex = 'RT\s'
 
+def extended_tweet_exists(tweet):
+    return 'extended_tweet' in tweet
+
 def get_tweet_text(tweet):
     tweet = tweet['fullDocument']
-    return clean_tweet(tweet['text'])
+
+    text = "No text"
+    if extended_tweet_exists(tweet):
+        text = tweet['extended_tweet']['full_text']
+    elif 'retweeted_status' in tweet:
+        retweet = tweet['retweeted_status']
+        if extended_tweet_exists(retweet):
+            text = retweet['extended_tweet']['full_text']
+        else:
+            text = retweet['text']
+    else:
+        text = tweet['text']
+    
+    return clean_tweet(text)
 
 def get_tweet_image_url(tweet):
     tweet = tweet['fullDocument']
