@@ -33,6 +33,7 @@ Docker container collects tweets in real-time based on a particular query using 
 [<img src="https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white" />](https://api.slack.com/bot-users)
 
 ## How to Run Locally
+The project was able to run on an Ubuntu 20.04 machines (one with 2GB and another with 8GB RAM) with the default settings by following the instructions below.Techincally, more or less the same steps can be followed to run on Ubuntu versions which support docker (or debian OSs)
 1. git clone https://github.com/abhisrn1986/TwitterDataPipeline.git.
 2. Install docker from instructions [here](https://docs.docker.com/engine/install/ubuntu/).
 3. If you don’t want to preface the docker command with sudo, follow the instructions [here](https://docs.docker.com/engine/install/linux-postinstall/).
