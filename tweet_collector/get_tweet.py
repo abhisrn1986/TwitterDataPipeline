@@ -1,11 +1,11 @@
-from tweepy import Stream
-import credentials
-import pymongo
-import json
 import time
 import os
 
+import json
 
+from tweepy import Stream
+import pymongo
+import credentials
 class UserTweetsStream(Stream):
 
     def __init__(self, *args, mongo_db, **kargs):
