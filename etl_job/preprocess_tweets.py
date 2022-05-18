@@ -1,5 +1,4 @@
 import re
-import json
 
 def clean_tweet(tweet_text):
     """Removes the hastags, urls, mentions and rts from tweet text.

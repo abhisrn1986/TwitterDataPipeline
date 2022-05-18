@@ -1,11 +1,11 @@
-from tweepy import Stream
-import credentials
-import pymongo
-import json
 import time
 import os
 
+import json
 
+from tweepy import Stream
+import pymongo
+import credentials
 class UserTweetsStream(Stream):
     """Derived class of Stream class from Twitter API overriding
        on_data method to insert the tweet in a MongoDB database

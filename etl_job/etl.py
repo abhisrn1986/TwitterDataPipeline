@@ -1,11 +1,14 @@
-import sentimental_analysis
-import tweets_database
 import slack
+import pymongo
+import sentimental_analysis
 from preprocess_tweets import get_tweet_text, get_tweet_image_url
 
 if __name__ == '__main__':
 
-    db = tweets_database.connect_to_mongodb()
+    # db = tweets_database.connect_to_mongodb()
+    # Establish a connection to the MongoDB server and connect to twitter database
+    db = pymongo.MongoClient(host="mongodb", port=27017, replicaset='dbrs').twitter
+
 
     # Post to slack whenever there is a change in the mongo db
     # (here changes are only insertions)
