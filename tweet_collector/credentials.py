@@ -1,6 +1,14 @@
 import os
 
 def get_twitter_creds():
+    """Returns the dict with all the credentials of Twitter developer
+       account.
+
+    Returns:
+        dict: Credentials dict with keys
+              customer_key, customer_secret_key, access_token_secret,
+              bearer_token.
+    """
     
     return { 'customer_key' : os.getenv("CUSTOMER_KEY"),
     'customer_secret_key' : os.getenv("CUSTOMER_SECRET_KEY"),
