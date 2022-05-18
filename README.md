@@ -48,7 +48,6 @@ Docker container collects tweets in real-time based on a particular query using 
     ACCESS_TOKEN_SECRET=token2
     BEARER_TOKEN=token3
     SLACK_WEBHOOK=url
-    QUERY=initial_query
     ```
 
     *Note*: Replace the text after = in each line with approriate values (such the customer keys, access tokens, slack webhook url and the query) and remember there shoudn't be any space after =.

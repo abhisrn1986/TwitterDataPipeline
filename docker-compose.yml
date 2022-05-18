@@ -14,6 +14,8 @@ services:
     - ./tweet_collector/:/get_tweet
     env_file:
       - .env
+    environment:
+      - QUERY
 
     depends_on:
     - mongodb
