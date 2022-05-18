@@ -39,7 +39,7 @@ Docker container collects tweets in real-time based on a particular query using 
 4. Install docker compose executing the command `sudo apt install docker-compose` in shell.
 5. Sign up for a twitter developer account with elevated access (maximum limit of 2 million tweet pulls per month) if you don't have one. Elevated access is mandatory to run this project (as Tweepy API Stream functionality is accessible with elevated access account). Here is a [link]( https://developer.twitter.com/en/docs/platform-overview) on how to get started with Twitter API.
 6. Create slackbot to post tweets in a slack channel see the section below on how to do this. 	
-7. Create a .env file in root directory (TwitterDataPipeline) consisting of the credentials of twitter, slack channel web hook and initial tweet query in the folowing format:
+7. Create a .env file in root directory (TwitterDataPipeline) consisting of the credentials of twitter and slack channel web hook in the folowing format:
 
     ```
     CUSTOMER_KEY=key1
