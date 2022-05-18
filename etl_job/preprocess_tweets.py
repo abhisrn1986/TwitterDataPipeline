@@ -2,6 +2,15 @@ import re
 import json
 
 def clean_tweet(tweet_text):
+    """Removes the hastags, urls, mentions and rts from tweet text.
+
+    Args:
+        tweet_text (str): Tweet text to clean.
+
+    Returns:
+        str: Cleaned text removing hastags, urls, mentions
+             and rts.
+    """
 
     tweet_text = re.sub(clean_tweet.mentions_regex, '', tweet_text)  # removes @mentions
     # removes hashtag symbol
@@ -23,6 +32,15 @@ def extended_tweet_exists(tweet):
     return 'extended_tweet' in tweet
 
 def get_tweet_text(tweet):
+    """Extract the complete text of the tweet with no hastags, urls,
+        mentions and rts.
+
+    Args:
+        tweet (dictionary): Twitter API tweet dictionary.
+
+    Returns:
+        str: Extracted full text with no hastags, urls,mentions and rts.
+    """
 
     text = "No text"
     if extended_tweet_exists(tweet):
@@ -39,6 +57,15 @@ def get_tweet_text(tweet):
     return clean_tweet(text)
 
 def get_tweet_image_url(tweet):
+    """Extract the image url of the tweet if it exists otherwise use
+        use the defualt image from "https://about.twitter.com/content/dam/about-twitter/en/brand-toolkit/brand-download-img-1.jpg.twimg.1920.jpg".
+
+    Args:
+        tweet (dict): Twitter API tweet dictionary.
+
+    Returns:
+        str: Extracted image url.
+    """
 
     image_url = "https://about.twitter.com/content/dam/about-twitter/en/brand-toolkit/brand-download-img-1.jpg.twimg.1920.jpg"
     extended_tweet = {}
