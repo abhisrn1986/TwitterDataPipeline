@@ -4,3 +4,9 @@ psycopg2-binary
 pandas
 urllib3
 vaderSentiment
+
+# Particular versions of click and protobuf packages are needed for running
+# streamlit of version 1.8.0
+click==8.0.3
+protobuf~=3.20.0
+streamlit==1.8.0

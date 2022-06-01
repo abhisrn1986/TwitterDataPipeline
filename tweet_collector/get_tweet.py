@@ -92,7 +92,6 @@ if __name__ == '__main__':
 
     try:
         phrases = [i for i in os.getenv("QUERY").split(";")]
-        print("phrases", phrases)
     except AttributeError:
         print("Provide a query argument as none is provided")
         exit(1)
