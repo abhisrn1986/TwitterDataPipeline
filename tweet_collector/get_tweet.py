@@ -41,45 +41,11 @@ class UserTweetsStream(Stream):
     __db = None
 
 
-def is_replica_set(mongo_db):
-    """Checks if mongoDB client is a replica set.
-
-    Args:
-        mongo_db (pymongo.MongoClient): MongoDB client comprising
-        of database "tweets".
-
-    Returns:
-        bool: True if a replicaset else false.
-    """
-    try:
-        mongo_db.admin.command("replSetGetStatus")
-        return True
-    except pymongo.errors.OperationFailure:
-        return False
-
-
 if __name__ == '__main__':
 
-    # wait until mongo db is connected properly before insertion
-    time.sleep(10)
-
-    # Initialize a mongodb replica set and config it to have only one
-    # primary node. Replica set allows to notify db change events such
-    # as tweet insertion for instance.
-    # https://pymongo.readthedocs.io/en/stable/examples/high_availability.html?highlight=replica#id1
-    mongodb_client = pymongo.MongoClient(host="mongodb",
-                                         port=27017,
-                                         directConnection=True)
-    # Check if db is replica set if not initialize it and config it.
-    if not is_replica_set(mongodb_client):
-        config = {'_id': 'dbrs',
-                  'members': [
-                      {'_id': 0, 'host': 'mongodb:27017'}
-                  ]}
-        mongodb_client.admin.command("replSetInitiate", config)
-
-    # Connect ot twitter data base
-    db = mongodb_client.twitter
+    # Establish a connection to the MongoDB server and connect to twitter database
+    db = pymongo.MongoClient(host="mongodb", port=27017,
+                             replicaset='dbrs').twitter
 
     # set up a tweets stream object which directly inserts tweets into
     # the database whenever new tweets are streamed.

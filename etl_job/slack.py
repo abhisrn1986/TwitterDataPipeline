@@ -26,6 +26,5 @@ def post_slack(text, score, image_url):
             }]
             }
 
-    # requests.post(url=credentials.get_slack_webhook(), json=data)
-    print(text , score, image_url)
+    requests.post(url=credentials.get_slack_webhook(), json=data)
     time.sleep(5)

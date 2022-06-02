@@ -7,6 +7,15 @@ services:
     - 27017:27017
     entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs" ]
 
+  etl_job:
+    build: etl_job/
+    volumes:
+    - ./etl_job/:/etl
+    env_file:
+      - .env
+    depends_on:
+    - mongodb
+
   tweet_collector:
    
     build: tweet_collector/
@@ -19,13 +28,4 @@ services:
 
     depends_on:
     - mongodb
-
-  etl_job:
-    build: etl_job/
-    volumes:
-    - ./etl_job/:/etl
-    env_file:
-      - .env
-    depends_on:
-    - mongodb
-    - tweet_collector
+    - etl_job
