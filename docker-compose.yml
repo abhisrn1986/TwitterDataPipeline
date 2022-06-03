@@ -21,6 +21,8 @@ services:
     build: tweet_collector/
     volumes:
     - ./tweet_collector/:/get_tweet
+    ports:
+      - 8888:8888
     env_file:
       - .env
     environment:
