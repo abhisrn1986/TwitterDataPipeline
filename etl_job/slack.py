@@ -3,7 +3,7 @@ import requests
 import credentials
 
 
-def post_slack(text, score, image_url):
+def post_slack(text, score, image_url, web_hook_url):
     """Posts the text and sentimental score along with thumbnail image
 
     Args:
@@ -26,5 +26,9 @@ def post_slack(text, score, image_url):
             }]
             }
 
-    requests.post(url=credentials.get_slack_webhook(), json=data)
-    time.sleep(5)
+    try:
+        requests.post(url=web_hook_url, json=data)
+        time.sleep(5)
+        return True
+    except:
+        return False

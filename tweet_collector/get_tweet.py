@@ -50,6 +50,7 @@ if __name__ == '__main__':
     # The server's hostname or IP address
     HOST = socket.gethostbyname('tweet_collector')
     PORT = 8888        # Port to listen on (non-privileged ports are > 1023)
+    data_str = ""
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind((HOST, PORT))
@@ -63,16 +64,18 @@ if __name__ == '__main__':
                     break
                 data_str = data.decode('utf-8')
 
-            # set up a tweets stream object which directly inserts tweets into
-            # the database whenever new tweets are streamed.
-            creds = credentials.get_twitter_creds()
-            user_stream = UserTweetsStream(creds['customer_key'],
-                                           creds['customer_secret_key'],
-                                           creds['access_token'],
-                                           creds['access_token_secret'],
-                                           mongo_db=db)
 
-            thread = user_stream.filter(
-                track=[data_str],
-                languages=['en'],
-                threaded=True)
+    if data_str != "":
+        # set up a tweets stream object which directly inserts tweets into
+        # the database whenever new tweets are streamed.
+        creds = credentials.get_twitter_creds()
+        user_stream = UserTweetsStream(creds['customer_key'],
+                                        creds['customer_secret_key'],
+                                        creds['access_token'],
+                                        creds['access_token_secret'],
+                                        mongo_db=db)
+
+        thread = user_stream.filter(
+            track=[data_str],
+            languages=['en'],
+            threaded=True)

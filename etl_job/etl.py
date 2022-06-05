@@ -28,15 +28,33 @@ def is_replica_set(mongo_db):
     except pymongo.errors.OperationFailure:
         return False
 
+
 def send_query_to_tweet_stream(query):
     # The server's hostname or IP address
     HOST = socket.gethostbyname('tweet_collector')
     PORT = 8888        # The port used by the server
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.connect((HOST, PORT))
-            s.sendall(bytes(query, 'utf-8'))
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.connect((HOST, PORT))
+                s.sendall(bytes(query, 'utf-8'))
+    except ConnectionRefusedError:
+        return False
+    return True
+
+
+# Set a parameter in session state for checking if the query is already
+# submitted when there are reruns due to intereaction with other widgets.
+# Needed to clear the query submission form in the rerun after submitting
+# the query initially.
+def is_query_sent():
+    
+    st.session_state['query_submitted'] = True
+    st.session_state['title'].title("Tweets Sentiment Analyser Pipeline")
+
+
 
 if __name__ == '__main__':
+
 
     # wait until mongo db is connected properly before insertion
     time.sleep(10)
@@ -68,24 +86,38 @@ if __name__ == '__main__':
 
     
     # Setup the streamlit elements for parameter passing
-    st.title("Tweets Sentiment Analyser Pipeline")
+    st.session_state['title'] = st.empty()
+    st.session_state['title'].title("Tweets Sentiment Analyser Pipeline")
+
+
     form_ph = st.empty()
     form = form_ph.form("Query_form")
     tweets_streaming_query = form.text_input('Tweets Stream Query', 'China')
-    query_submitted = form.form_submit_button("Submit")
+    query_submitted = form.form_submit_button("Submit", on_click=is_query_sent)
+
     enable_slack_post = st.checkbox("Post in slack channel")
+
+    if(enable_slack_post):
+        slack_form_widget_ph = st.empty()
+
+        slack_form_widget = slack_form_widget_ph.container()
+        slack_web_hook_url = slack_form_widget.text_input("Slack channel web hook url", "Enter the url")
+        slack_invalid_text = slack_form_widget.empty()
 
     tweet_post_widgets = []
     tweet_texts = deque()
 
-    if query_submitted:
-        send_query_to_tweet_stream(tweets_streaming_query)
 
+    # Check if the tweet query is submitted
+    if "query_submitted" in st.session_state.to_dict() and st.session_state['query_submitted']:
+        send_query_to_tweet_stream(tweets_streaming_query)
         # Clear the form as only one set of queries are allowed at the start
         # TODO this can be removed when Twitter API allows changing the stream
         # at run time.
         form_ph.empty()
-        st.markdown("""<h2> Real time tweets feed </h2>""", unsafe_allow_html=True)
+
+        st.session_state['tweet_feed_title'] = st.empty()
+        st.session_state['tweet_feed_title'].markdown("""<h2> Real time tweets feed </h2>""", unsafe_allow_html=True)
 
         # Post to slack whenever there is a change in the mongo db
         # (here changes are only insertions)
@@ -99,8 +131,11 @@ if __name__ == '__main__':
                 score = get_score_tweet(tweet_text)
                 sentiment =  get_tweet_sentiment(score)
                 if(enable_slack_post):
-                    slack.post_slack(tweet_text, score,
-                                     get_tweet_image_url(tweet_dict))
+                    if not slack.post_slack(tweet_text, score,
+                                     get_tweet_image_url(tweet_dict), slack_web_hook_url):
+
+                        slack_invalid_text.markdown("""<p style="color:red"> The slack web url is invalid! Enter a valid one </p>""", unsafe_allow_html=True)
+                            
 
                 if sentiment == 'negative':
                     html_color = 'red'
