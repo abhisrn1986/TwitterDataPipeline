@@ -47,33 +47,20 @@ if __name__ == '__main__':
     db = pymongo.MongoClient(host="mongodb", port=27017,
                              replicaset='dbrs').twitter
 
-    # thread.setDaemon(True)
-    # thread.start()
-
     # The server's hostname or IP address
     HOST = socket.gethostbyname('tweet_collector')
     PORT = 8888        # Port to listen on (non-privileged ports are > 1023)
-    print('Before while:  ', (HOST, PORT))
-
-    # while True:
-    print('Entered while:  ', (HOST, PORT))
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        print('BInding with ', (HOST, PORT))
-
         s.bind((HOST, PORT))
-        print('Listening with ', (HOST, PORT))
-
         s.listen()
         conn, addr = s.accept()
 
         with conn:
-            print('Connected by', addr)
             while True:
                 data = conn.recv(1024)
                 if not data:
                     break
-                conn.sendall(data)
                 data_str = data.decode('utf-8')
 
             # set up a tweets stream object which directly inserts tweets into
@@ -84,12 +71,6 @@ if __name__ == '__main__':
                                            creds['access_token'],
                                            creds['access_token_secret'],
                                            mongo_db=db)
-
-            try:
-                phrases = [i for i in os.getenv("QUERY").split(";")]
-            except AttributeError:
-                print("Provide a query argument as none is provided")
-                exit(1)
 
             thread = user_stream.filter(
                 track=[data_str],

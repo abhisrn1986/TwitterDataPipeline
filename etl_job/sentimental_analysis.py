@@ -16,4 +16,14 @@ def get_score_tweet(tweet_text):
     return get_score_tweet.analyzer.polarity_scores(tweet_text)
 
 
+def get_tweet_sentiment(score):
+
+    if score['compound'] <= -0.05:
+        return 'negative'
+    elif score['compound'] >= 0.05:
+        return 'positive'
+    
+    return 'neutral'
+
+
 get_score_tweet.analyzer = SentimentIntensityAnalyzer()
