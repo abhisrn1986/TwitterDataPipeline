@@ -4,9 +4,14 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 
 class Sentiment(Enum):
+    """Enum Type for sentiment of tweets.
+    """
     NEUTRAL = 0,
     POSITIVE = 1,
     NEGATIVE = -1
+
+    def __str__(self):
+        return f'{self.name}'
 
 
 def get_score_tweet(tweet_text):

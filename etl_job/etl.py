@@ -56,10 +56,13 @@ if __name__ == '__main__':
             "Slack channel web hook url", "Enter the url")
         slack_invalid_text = slack_form_widget.empty()
 
-    tweet_post_widgets = []
+    tweet_post_text_widgets = []
+    tweet_post_img_widgets = []
     # Deque is used instead of list due better performance of rotation
     # functionality.
     tweet_texts = deque()
+    tweet_img_urls = deque()
+
 
     # Check if the tweet query is submitted.
     if "query_submitted" in st.session_state.to_dict() and st.session_state[
@@ -86,28 +89,37 @@ if __name__ == '__main__':
                 tweet_dict = change['fullDocument']
                 tweet_text = get_tweet_text(tweet_dict)
                 score = get_score_tweet(tweet_text)
+                thumbnail_url = get_tweet_image_url(tweet_dict)
+                sentiment = get_tweet_sentiment(score)
 
                 # If enable post checkbox is checked than post the tweet
                 # sentiment in the given slack channel.
                 if(enable_slack_post):
                     if not slack.post_slack(
-                            tweet_text, score, get_tweet_image_url(tweet_dict),
+                            tweet_text, score, thumbnail_url,
                             slack_web_hook_url):
                         slack_invalid_text.markdown(
                             """<p style="color:red"> The slack web url is invalid! Enter a valid one </p>""",
                             unsafe_allow_html=True)
 
-                sentiment_html = utils.get_sentiment_html(
-                    get_tweet_sentiment(score))
-                html_text = f"""<div style="margin-bottom: 30px"><span style="word-wrap:break-word;">{tweet_text}\n{sentiment_html}</span><div>"""
+                
+                html_text = utils.get_tweet_sentiment_html(tweet_text, sentiment)
 
                 # Add tweet sentiments text widgets until the number of these
                 # widgets reaches max_tweets_display.
-                if len(tweet_post_widgets) < max_tweets_display:
-                    tweet_post_widgets.append(st.markdown(
+                if len(tweet_post_text_widgets) < max_tweets_display:
+                    
+                    tweet_post_img_widgets.append(st.image(thumbnail_url, width=128))
+                    tweet_post_text_widgets.append(st.markdown(
                         html_text, unsafe_allow_html=True))
+                    
                     tweet_texts.append(html_text)
-                tweet_post_widgets[0].markdown(
+                    tweet_img_urls.append(thumbnail_url)
+
+                
+                tweet_post_img_widgets[0].image(
+                    thumbnail_url, width=128)
+                tweet_post_text_widgets[0].markdown(
                     html_text, unsafe_allow_html=True)
 
                 # When the number of tweets displayed exceeds
@@ -115,9 +127,13 @@ if __name__ == '__main__':
                 # widgets by one downwards and add new one at the top.
                 for i_text, text in enumerate(tweet_texts):
                     if i_text < len(tweet_texts) - 1:
-                        tweet_post_widgets[i_text + 1].markdown(
-                            text, unsafe_allow_html=True)
+                        tweet_post_img_widgets[i_text + 1].image(
+                        tweet_img_urls[i_text], width=128)
+                        tweet_post_text_widgets[i_text + 1].markdown(
+                        text, unsafe_allow_html=True)
                 tweet_texts.rotate(1)
+                tweet_img_urls.rotate(1)
                 tweet_texts[0] = html_text
+                tweet_img_urls[0] = thumbnail_url
 
                 time.sleep(5)

@@ -5,7 +5,7 @@ import pymongo
 from sentimental_analysis import Sentiment
 
 
-def get_sentiment_html(sentiment):
+def get_tweet_sentiment_html(tweet_text, sentiment):
     """Get the html text for streamlit markdown to display the tweet general
        sentiment.
 
@@ -23,7 +23,9 @@ def get_sentiment_html(sentiment):
     else:
         html_color = 'yellow'
 
-    return f'<p style="color:{html_color}">{sentiment}</p>'
+    sentiment_html  = f'<p style="color:{html_color}">{sentiment}</p>'
+
+    return f"""<div style="margin-bottom: 50px"><div><span style="word-wrap:break-word;">{tweet_text}</span></div><div>{sentiment_html}</div></div>"""
 
 def is_replica_set(mongo_db):
     """Checks if mongoDB client is a replica set.
