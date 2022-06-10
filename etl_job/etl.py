@@ -96,8 +96,7 @@ if __name__ == '__main__':
 
         # Header for tweet sentiments feed and this is stored in session state
         # to not change across streamlit app reruns.
-        st.session_state['tweet_feed_title'] = st.empty()
-        st.session_state['tweet_feed_title'].markdown(
+        st.markdown(
             """<h2> Real time tweets feed </h2>""", unsafe_allow_html=True)
 
 
@@ -134,7 +133,6 @@ if __name__ == '__main__':
 
                 # Add tweet sentiments text widgets until the number of these
                 # widgets reaches max_tweets_display.
-            
                 if len(st.session_state['tweet_texts']) < max_tweets_display:
                     
                     tweet_post_img_widgets.append(st.image(thumbnail_url, width=128))
@@ -143,7 +141,7 @@ if __name__ == '__main__':
                     
                     st.session_state['tweet_texts'].append((html_text, thumbnail_url))
 
-                
+                # Add to the top widget the latest tweet feed.
                 tweet_post_img_widgets[0].image(
                     thumbnail_url, width=128)
                 tweet_post_text_widgets[0].markdown(
