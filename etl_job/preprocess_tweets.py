@@ -57,7 +57,7 @@ def get_tweet_text(tweet):
 
 def get_tweet_image_url(tweet):
     """Extract the image url of the tweet if it exists otherwise use
-        use the defualt image from "https://about.twitter.com/content/dam/about-twitter/en/brand-toolkit/brand-download-img-1.jpg.twimg.1920.jpg".
+        use the default image from "https://about.twitter.com/content/dam/about-twitter/en/brand-toolkit/brand-download-img-1.jpg.twimg.1920.jpg".
 
     Args:
         tweet (dict): Twitter API tweet dictionary.
